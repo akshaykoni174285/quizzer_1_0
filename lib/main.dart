@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+// import 'question.dart';
+import 'brain_quiz.dart';
+
+BrainQuiz brainQuiz = BrainQuiz();
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +16,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  List<Icon> scorekeeper = [];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Color(0xff2E3440),
+        backgroundColor: const Color(0xff2E3440),
         appBar: AppBar(
-          backgroundColor: Color(0xff4C566A),
-          title: Text(
+          backgroundColor: const Color(0xff4C566A),
+          title: const Text(
             "Quizie",
             style: TextStyle(
               color: Color(0xffD8DEE9),
@@ -31,21 +37,23 @@ class _MyAppState extends State<MyApp> {
         ),
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               children: [
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    child: Center(
-                      child: Text(
-                        "hello",
-                        style: TextStyle(color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      brainQuiz.getQuestion(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
                       ),
                     ),
                   ),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.white,
                   thickness: 2,
                   indent: 30,
@@ -64,19 +72,32 @@ class _MyAppState extends State<MyApp> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         color: Colors.green,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 5),
                         child: InkWell(
                           splashColor: Colors.green[900],
                           onTap: () {
-                            debugPrint('tapped');
+                            bool correctans = brainQuiz.getAnswer();
+                            if (correctans == true) {
+                              print("correct ans");
+                            } else {
+                              print("wrong ans");
+                            }
+                            // bool correct_ans = answers[counter_num];
+                            // if (correct_ans == true){
+                            //
+                            // }
+                            setState(() {
+                              brainQuiz.nextQuest();
+                            });
                           },
-                          child: Center(
+                          child: const Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 25),
+                              padding: EdgeInsets.symmetric(vertical: 25),
                               child: Text(
                                 'True',
                                 style: TextStyle(
+                                    letterSpacing: 1.5,
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
@@ -93,19 +114,28 @@ class _MyAppState extends State<MyApp> {
                         ),
                         elevation: 10,
                         color: Colors.red,
-                        margin:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 5),
                         child: InkWell(
                           onTap: () {
-                            debugPrint('tapped');
+                            bool correctans = brainQuiz.getAnswer();
+                            if (correctans == false) {
+                              print("correct ans");
+                            } else {
+                              print("wrong ans");
+                            }
+                            setState(() {
+                              brainQuiz.nextQuest();
+                            });
                           },
                           splashColor: Colors.red[900],
-                          child: Center(
+                          child: const Center(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 25),
+                              padding: EdgeInsets.symmetric(vertical: 25),
                               child: Text(
                                 'False',
                                 style: TextStyle(
+                                    letterSpacing: 1.5,
                                     color: Colors.white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
@@ -114,6 +144,30 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                       ),
+                      //TODO: enter the score keeper
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 0),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
