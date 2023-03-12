@@ -17,6 +17,35 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Icon> scorekeeper = [];
+  int counter = 0;
+  void checkAns(bool userpickedans) {
+    setState(() {
+      bool correctans = brainQuiz.getAnswer();
+      if (correctans == userpickedans) {
+        if (counter < brainQuiz.totalQuestion()) {
+          scorekeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+          counter++;
+        }
+      } else {
+        if (counter < brainQuiz.totalQuestion()) {
+          scorekeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+          counter++;
+        }
+      }
+
+      brainQuiz.nextQuest();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,19 +106,7 @@ class _MyAppState extends State<MyApp> {
                         child: InkWell(
                           splashColor: Colors.green[900],
                           onTap: () {
-                            bool correctans = brainQuiz.getAnswer();
-                            if (correctans == true) {
-                              print("correct ans");
-                            } else {
-                              print("wrong ans");
-                            }
-                            // bool correct_ans = answers[counter_num];
-                            // if (correct_ans == true){
-                            //
-                            // }
-                            setState(() {
-                              brainQuiz.nextQuest();
-                            });
+                            checkAns(true);
                           },
                           child: const Center(
                             child: Padding(
@@ -118,15 +135,7 @@ class _MyAppState extends State<MyApp> {
                             vertical: 15, horizontal: 5),
                         child: InkWell(
                           onTap: () {
-                            bool correctans = brainQuiz.getAnswer();
-                            if (correctans == false) {
-                              print("correct ans");
-                            } else {
-                              print("wrong ans");
-                            }
-                            setState(() {
-                              brainQuiz.nextQuest();
-                            });
+                            checkAns(false);
                           },
                           splashColor: Colors.red[900],
                           child: const Center(
@@ -149,24 +158,7 @@ class _MyAppState extends State<MyApp> {
                         margin: const EdgeInsets.symmetric(vertical: 0),
                       ),
                       Row(
-                        children: [
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          ),
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          ),
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          ),
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          ),
-                        ],
+                        children: scorekeeper,
                       )
                     ],
                   ),

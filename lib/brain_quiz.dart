@@ -36,6 +36,10 @@ class BrainQuiz {
     }
   }
 
+  int totalQuestion() {
+    return _questionbank.length;
+  }
+
   String getQuestion() {
     return _questionbank[_questionum].questionText;
   }
